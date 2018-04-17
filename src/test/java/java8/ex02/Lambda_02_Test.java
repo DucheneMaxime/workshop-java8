@@ -20,21 +20,19 @@ import static org.junit.Assert.*;
 public class Lambda_02_Test {
 
     // tag::PersonToAccountMapper[]
-    interface PersonToAccountMapper {
-        Account map(Person p);
+    interface PersonToAnyMapper<T> {
+        T map(Person p);
     }
     // end::PersonToAccountMapper[]
 
     // tag::map[]
-    private List<Account> map(List<Person> personList, PersonToAccountMapper mapper) {
+    private <T> List<T> map(List<Person> personList, PersonToAnyMapper<T> mapper) {
         // TODO implémenter la méthode
-    	List<Account> account = new ArrayList<Account>();
+    	List<T> account = new ArrayList<T>();
     	Iterator it = personList.iterator();
     	while(it.hasNext()){
     		Person p = (Person) it.next();
-    		Account a = mapper.map(p);
-    		a.setOwner(p);
-    		account.add(a);
+    		account.add(mapper.map(p));
     	}
         return account;
     }
@@ -50,8 +48,13 @@ public class Lambda_02_Test {
         // TODO transformer la liste de personnes en liste de comptes
         // TODO tous les objets comptes ont un solde à 100 par défaut
         List<Account> result = map(personList, balance -> {
+        	List<Account> account = new ArrayList<Account>();
+        	Iterator<Person> it = personList.iterator();
         	Account a = new Account();
-        	a.setBalance(100);
+        	while(it.hasNext()){
+	        	a.setOwner((Person) it.next());
+	        	a.setBalance(100);
+        	}
         	return a;
         });
 
@@ -68,11 +71,7 @@ public class Lambda_02_Test {
         List<Person> personList = Data.buildPersonList(100);
 
         // TODO transformer la liste de personnes en liste de prénoms
-        List<String> result = new ArrayList<String>();
-        Iterator it = personList.iterator();
-        while(it.hasNext()){        	
-        	result.add(( (Person) it.next()).getFirstname());
-        }
+        List<String> result = map(personList, p -> p.getFirstname());
         
 
         assertThat(result, hasSize(personList.size()));
