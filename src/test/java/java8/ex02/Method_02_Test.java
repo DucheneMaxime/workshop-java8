@@ -24,7 +24,6 @@ public class Method_02_Test {
         // TODO exemple de résultat : "[14 persons]", "[30 persons]"
         default String format(){
         	int size = findAll().size();
-        	Iterator<Person> it = findAll().iterator();
         	return "["+size+" persons]";
         }
     }
