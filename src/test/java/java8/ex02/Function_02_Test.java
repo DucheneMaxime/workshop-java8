@@ -15,16 +15,24 @@ import static org.junit.Assert.*;
 public class Function_02_Test {
 
     //  tag::buildAccount[]
-    // TODO Compléter la fonction buildAccount
-    // TODO la fonction possède 2 paramètres en entrée : une personne et un solde
-    BiFunction<Person, Integer, Account> buildAccount = null;
+    BiFunction<Person, Integer, Account> buildAccount = (p, s) -> {
+    	Account a = new Account();
+    	a.setBalance(s);
+    	a.setOwner(p);
+    	return a;
+    };
     //  end::buildAccount[]
 
     @Test
     public void test_build_account() throws Exception {
 
         // TODO invoquer la fonction buildAccount pour que le test soit passant
-        Account account = null;
+    	Person p = new Person();
+    	p.setAge(80);
+    	p.setFirstname("John");
+    	p.setLastname("France");
+    	p.setPassword("pass");
+        Account account = buildAccount.apply(p,  500);
 
         assertThat(account, hasProperty("balance", is(500)));
         assertThat(account.getOwner(), hasProperty("firstname", is("John")));
