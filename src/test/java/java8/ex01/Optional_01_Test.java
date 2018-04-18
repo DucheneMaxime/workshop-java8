@@ -40,9 +40,7 @@ public class Optional_01_Test {
 
         List<Person> personList = Data.buildPersonList(100);
 
-        // TODO invoquer la méthode find(List<T> list, Predicate<T> predicate)
-        // TODO age == 10
-        Optional<Person> result = null;
+        Optional<Person> result = Optional.of(find(personList, p -> p.getAge()==10));
 
         assertThat(result, instanceOf(Optional.class));
         assertThat(result.isPresent(), is(true));
@@ -57,9 +55,7 @@ public class Optional_01_Test {
 
         List<Person> personList = Data.buildPersonList(100);
 
-        // TODO invoquer la méthode find(List<T> list, Predicate<T> predicate)
-        // TODO age == 400
-        Optional<Person> result = null;
+        Optional<Person> result = Optional.ofNullable(find(personList, p -> p.getAge()==400));
 
         assertThat(result, instanceOf(Optional.class));
         assertThat(result.isPresent(), is(false));
@@ -71,11 +67,8 @@ public class Optional_01_Test {
 
         List<Person> personList = Data.buildPersonList(100);
 
-        // TODO invoquer la méthode find(List<T> list, Predicate<T> predicate)
-        // TODO age == 10 et firstname == "last_10"
-        Optional<Person> result = null;
-
-        // TODO Utiliser la méthode orElseThrow pour déclencher l'exception NotFountException si non trouvé
+        Optional<Person> result = Optional.ofNullable(find(personList, p -> p.getAge()==10 && p.getFirstname().equals("last_10")));
+        result.orElseThrow(() -> new NotFountException());
     }
 
     @Test
